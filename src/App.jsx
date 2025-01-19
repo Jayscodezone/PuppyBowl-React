@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { BrowserRouter,Routes, Route } from "react-router-dom";
 import React from "react";
 import AllPlayers from './components/AllPlayers';
 import NewPlayerForm from './components/NewPlayerForm';
@@ -12,27 +12,22 @@ function App() {
     <NavBar/>
     <AllPlayers />
     <NewPlayerForm />
-    <SinglePlayer />
+   <SinglePlayer />
   </div>
 
   return (
-    <>
-      <div>
-       
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-
-
       <BrowserRouter>
+      <div>
+      <h1>Puppy Bowl React router</h1>
         <Routes>
           <Route path='/' element={<AllPlayers/>} />
-          <Route path='/players/:id'element={<SinglePlayer />}/>
+          <Route path='/players/:id' element={<SinglePlayer />}/>
+          <Route path='/newplayerform' element={<NewPlayerForm/>} />
+
         </Routes>
+        </div>
       </BrowserRouter>
-    
   );
 }
 
-export default App
+export default App;

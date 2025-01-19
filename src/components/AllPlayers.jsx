@@ -1,6 +1,6 @@
 import SinglePlayer from "./SinglePlayer";
 import {useEffect,useState} from "react";
-import {fetchPlayers} from ".../api";
+import {fetchPlayers} from "../src/api";
 import React from 'react';
 
 
@@ -9,15 +9,17 @@ const [players, setPlayers] =useState([]);
 
 useEffect(() => {
     const getPlayers = async () => {
-      const playersData = await fetchPlayers();
-      setPlayers(playersData);
-      console.log(playersData);
-    }catch (error){
-        console.error("Error fetching players");
-    };
-    getPlayers();
-  }, []);
-
+        try {
+            const playersData = await fetchPlayers();
+            setPlayers(playersData);
+            console.log(playersData);
+          } catch {
+            console.log("Error fetching players");
+          }
+      };
+        getPlayers();
+      }, []);
+    
   return (
     <div id= "AllPlayers">
       <h2>The AllPlayers Component</h2>
