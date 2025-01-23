@@ -1,65 +1,55 @@
-export default function NewPlayerForm() {
+import { useState, useEffect } from "react";
+import { addPlayer, getTeams } from "../api";
+
+export default function NewPlayerForm({addPlayer}) {
     // New Player Form Component
-    const [player, setPlayer] = useState({
-        name: '',
-        breed: '',
-        team: '',
+    const [name, setName] = useState("");
+    const [team, setTeam] = useState("");
+    const [breed, setBreed] = useState("");
+    const [player,setPlayer] useState("")
+    const [image, setImage] = useState(null);
+
+  
+    
+    
+    export default function PlayerForm({ refreshData }) {
+      const [player, setPlayer] = useState({
+        name: "",
+        breed: "",
+        imageUrl: "",
+        status: "",
+        teamId: "",
       });
     
-    // form input changes
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setPlayer((prevPlayer) => ({
-      ...prevPlayer,
-      [name]: value,
-    }));
-  };
- // form submission
- const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log('Player Added:', player);
-    setPlayer({ name: '', breed: '', team: '' }); // Reset form AFTER SUBMIT
-  };
-
-    return (
-      <div>
-        <h2>NewPlayerForm Component</h2>
+      const [teams, setTeams] = useState([]);
+    
+      useEffect(() => {
+        getTeams().then(setTeams);
+      }, []);
+    
+      const handleChange = (e) => {
+        setPlayer({ ...player, [e.target.name]: e.target.value });
+      };
+    
+      const handleSubmit = async (e) => {
+        e.preventDefault();
+        await addPlayer(player);
+        setPlayer({ name: "", breed: "", imageUrl: "", status: "", teamId: "" });
+        refreshData();
+      };
+    
+      return (
         <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="name">Name:</label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            value={player.name}
-            onChange={handleInputChange}
-            required
-          />
-         </div>
-        <div>
-          <label htmlFor="breed">Breed:</label>
-          <input
-            type="text"
-            id="breed"
-            name="breed"
-            value={player.breed}
-            onChange={handleInputChange}
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="team">Team:</label>
-          <input
-            type="text"
-            id="team"
-            name="team"
-            value={player.team}
-            onChange={handleInputChange}
-            required
-          />
-        </div>
-        <button type="submit">Add Player</button>
-      </form>
-    </div>
-  );
-}
+          <input name="name" placeholder="Name" value={player.name} onChange={handleChange} />
+          <input name="breed" placeholder="Breed" value={player.breed} onChange={handleChange} />
+          <input name="imageUrl" placeholder="Image URL" value={player.imageUrl} onChange={handleChange} />
+          <select name="teamId" value={player.teamId} onChange={handleChange}>
+            <option value="" disabled>Select a team</option>
+            {teams.map((team) => (
+              <option key={team.id} value={team.id}>{team.name}</option>
+            ))}
+          </select>
+          <button type="submit">Submit</button>
+        </form>
+      );
+    }
