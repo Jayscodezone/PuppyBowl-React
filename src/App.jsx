@@ -1,8 +1,8 @@
 import { Routes, Route,Link } from "react-router-dom"; // Use BrowserRouter for routing
-import React from "react";
 import AllPlayers from './components/AllPlayers';
-import SinglePlayer from './components/SinglePlayer';
+import PlayerDetails from './components/PlayerDetails.jsx';
 import './App.css';
+import React from 'react';
 
 function App() {
   return (
@@ -11,10 +11,7 @@ function App() {
     <div id="navbar">
     <ul>
         <li>
-          <Link to="/">AllPlayers</Link>
-        </li>
-        <li>
-          <Link to="/players/:id">SinglePlayers</Link>
+          <Link to="/">All Players</Link>
         </li>
       </ul>
       </div>
@@ -23,7 +20,7 @@ function App() {
         {/* Define Routes */}
         <Routes>
           <Route path="/" element={<AllPlayers />} />  {/*All Players Component*/}
-          <Route path="/players/:id" element={<SinglePlayer />} /> {/*Single Player Component*/}
+          <Route path="/players/:id" element={<PlayerDetails />} /> {/*Player Details  Component*/}
         </Routes>
       </div>
       </div>
